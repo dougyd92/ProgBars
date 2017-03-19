@@ -1,0 +1,54 @@
+{
+    "author": "Douglas de Jesus",
+    "dependencies": {
+        "pebble-clay": "^1.0.3"
+    },
+    "keywords": [],
+    "name": "progbars",
+    "pebble": {
+        "capabilities": [
+            "location",
+            "configurable",
+            "health"
+        ],
+        "displayName": "ProgBars",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "BackgroundColor",
+            "BarCheckboxes[9]",
+            "TemperatureScale",
+            "Temperature",
+            "FetchTemperature",
+            "SettingsMessage",
+            "CombineHourMin",
+            "CombineMonthDay"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/MenuImage",
+                    "menuIcon": true,
+                    "name": "MENU_IMAGE",
+                    "targetPlatforms": null,
+                    "type": "png"
+                },
+                {
+                    "file": "fonts/OxygenMono-Regular.ttf",
+                    "name": "FONT_OXYGEN_MONO_19",
+                    "targetPlatforms": null,
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
+        "uuid": "521b440a-d2b5-458e-866a-4a6d59ed6ab7",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.1.0"
+}
