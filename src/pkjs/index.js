@@ -24,19 +24,19 @@ Pebble.addEventListener('webviewclosed', function(e) {
 	/* Add an indicator so the watch can tell if the message it
 	receives is the settings or some other message (e.g. weather) */
 	dict.SettingsMessage = 1;
-	
+
 	/* Send the settings values to the watch. */
 	Pebble.sendAppMessage(dict, function(e) {
 		console.log('Sent config data to Pebble.');
 	}, function(e) {
-		console.log('Failed to send config data:' + JSON.stringify(e));
+		console.log('Failed to send config data:' + JSON.stringify(e) + '; ' + JSON.stringify(dict));
 	});
 });
 
 /* Listen for when the watchface is opened. */
 Pebble.addEventListener('ready', function(e) {
 	console.log('PebbleKit JS ready!');
-	weather.getWeather(); sfd
+	weather.getWeather(); 
 });
 
 /* Listen for when an AppMessage is received. */
