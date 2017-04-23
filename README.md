@@ -13,8 +13,5 @@ The app consists of two components with bidirectional communication:
 
 https://apps.getpebble.com/applications/58ce72e56ca3876a5e001569
 
-![Imgur](http://i.imgur.com/SGeGW1w.png "Watchface app" =250x)
-![Imgur](http://i.imgur.com/FuEOn4M.png "Configuration page" =480x)
-
-
-
+<img src="http://i.imgur.com/SGeGW1w.png" alt="Watchface app" width="250">
+<img src="http://i.imgur.com/FuEOn4M.png" alt="Configuration page" width="480">
