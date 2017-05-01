@@ -83,7 +83,7 @@ static void redraw_bars(Layer *layer, GContext *ctx) {
 
 	/* The text color does need to get set every time, as there
 	is no way to set the color outside of the graphics context. */
-	graphics_context_set_text_color(ctx, GColorWhite);
+	graphics_context_set_text_color(ctx, settings.text_color);
 
 	for (int i = 0; i < TOTAL_BARS; ++i) {
 		if (settings.show_bar[i])
@@ -111,28 +111,24 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 	/* Update the minutes. */
 	if (units_changed & MINUTE_UNIT) {
 		if (settings.show_bar[MINUTES_BAR_IDX]) {
-			/* When the setting to combine hours and minutes into one bar is enabled,
-			the minutes bar is used for that. So, either update the hour and minute
-			together (taking into account 12/24 hour time), or just the minutes. */
-			if (settings.combine_hour_min) {
-				if (clock_is_24h_style()) {
-					progress[MINUTES_BAR_IDX] = (tick_time->tm_hour * 60 + tick_time->tm_min) / (24.0 * 60.0);
-					strftime(labels[MINUTES_BAR_IDX], LABEL_WIDTH, "%H:%M", tick_time);
-				}
-				else {
-					progress[MINUTES_BAR_IDX] = ((tick_time->tm_hour % 12) * 60 + tick_time->tm_min) / (12.0 * 60.0);
-					strftime(labels[MINUTES_BAR_IDX], LABEL_WIDTH, "%I:%M%P", tick_time);
-				}	
+			progress[MINUTES_BAR_IDX] = tick_time->tm_min / 60.0; 
+			strftime(labels[MINUTES_BAR_IDX], LABEL_WIDTH, "%Mm", tick_time);
+		}	
+		
+		if (settings.show_bar[COMBINED_HOURS_MINUTES_BAR_IDX]) {
+			if (clock_is_24h_style()) {
+				progress[COMBINED_HOURS_MINUTES_BAR_IDX] = (tick_time->tm_hour * 60 + tick_time->tm_min) / (24.0 * 60.0);
+				strftime(labels[COMBINED_HOURS_MINUTES_BAR_IDX], LABEL_WIDTH, "%H:%M", tick_time);
 			}
 			else {
-				progress[MINUTES_BAR_IDX] = tick_time->tm_min / 60.0; 
-				strftime(labels[MINUTES_BAR_IDX], LABEL_WIDTH, "%Mm", tick_time);
-			}
-		}	
+				progress[COMBINED_HOURS_MINUTES_BAR_IDX] = ((tick_time->tm_hour % 12) * 60 + tick_time->tm_min) / (12.0 * 60.0);
+				strftime(labels[COMBINED_HOURS_MINUTES_BAR_IDX], LABEL_WIDTH, "%I:%M%P", tick_time);
+			}	
+		}		
 	}
 
 	/* Update the hours. */
-	if (units_changed & HOUR_UNIT && !(settings.combine_hour_min)) {
+	if (units_changed & HOUR_UNIT) {
 		if (settings.show_bar[HOURS_BAR_IDX]) {		
 			if (clock_is_24h_style()) {
 				progress[HOURS_BAR_IDX] = tick_time->tm_hour / 24.0;
@@ -152,23 +148,19 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 			strftime(labels[WEEKDAY_BAR_IDX], LABEL_WIDTH, "%a", tick_time);
 		}	
 
-		/* When the setting to combine days and months into one bar is enabled,
-		the days bar is used for that. So, either update the day and month
-		together or just theday of the month. */
 		if (settings.show_bar[DAY_BAR_IDX]) {
-			if (settings.combine_month_day) {
-				progress[DAY_BAR_IDX] = tick_time->tm_yday / 365.0;
-				strftime(labels[DAY_BAR_IDX], LABEL_WIDTH, "%b %d", tick_time);
-			}
-			else {
-				progress[DAY_BAR_IDX] = (float) tick_time->tm_mday / get_days_in_month(tick_time);
-				strftime(labels[DAY_BAR_IDX], LABEL_WIDTH, "%d", tick_time);
-			}
+			progress[DAY_BAR_IDX] = (float) tick_time->tm_mday / get_days_in_month(tick_time);
+			strftime(labels[DAY_BAR_IDX], LABEL_WIDTH, "%d", tick_time);
 		}	
+		
+		if (settings.show_bar[COMBINED_MONTH_DAY_BAR_IDX]) {
+			progress[COMBINED_MONTH_DAY_BAR_IDX] = tick_time->tm_yday / 365.0;
+			strftime(labels[COMBINED_MONTH_DAY_BAR_IDX], LABEL_WIDTH, "%b %d", tick_time);
+		}
 	}
 
 	/* Update the months. */
-	if (units_changed & MONTH_UNIT && !(settings.combine_month_day)) {
+	if (units_changed & MONTH_UNIT) {
 		if (settings.show_bar[MONTH_BAR_IDX]) {
 			progress[MONTH_BAR_IDX] = tick_time->tm_mon / 12.0;
 			strftime(labels[MONTH_BAR_IDX], LABEL_WIDTH, "%b", tick_time);

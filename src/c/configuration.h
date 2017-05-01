@@ -18,10 +18,12 @@ enum {
 enum {
 	HOURS_BAR_IDX,
 	MINUTES_BAR_IDX,
+	COMBINED_HOURS_MINUTES_BAR_IDX,
 	SECONDS_BAR_IDX,
 	WEEKDAY_BAR_IDX,
 	MONTH_BAR_IDX,
 	DAY_BAR_IDX,
+	COMBINED_MONTH_DAY_BAR_IDX,
 	TEMPERATURE_BAR_IDX,
 	STEPS_BAR_IDX,
 	BATTERY_BAR_IDX,
@@ -44,8 +46,6 @@ typedef struct {
 	GColor text_color;
 	GColor bar_colors[TOTAL_BARS];
 	bool show_bar[TOTAL_BARS];
-	bool combine_hour_min;
-	bool combine_month_day;
 	temperature_scale_e temperature_scale;
 } app_settings_t;
 

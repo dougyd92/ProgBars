@@ -93,10 +93,9 @@ static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResul
  */
 static void init() {	
 	/* Inbox size must be large in order to receive the settings from Clay.
-	In version 1.1, 130 bytes and below would consitently be dropped on iPhone 
-	and emulator with error APP_MSG_BUSY. Outbox size can be smaller, as the 
-	only message that gets sent is the fetch weather request. */
-	const int inbox_size = 256;
+	Outbox size can be smaller, as the only message that gets sent is the 
+	fetch weather request. */
+	const int inbox_size = 512;
 	const int outbox_size = 64;
 
 	/* Open AppMessage connection and register callbacks. */

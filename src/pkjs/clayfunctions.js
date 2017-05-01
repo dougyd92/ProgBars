@@ -6,29 +6,65 @@ module.exports = function(minified) {
 	
 	var HOURS_BAR_IDX = 0;
 	var MINUTES_BAR_IDX = 1;
-	var MONTH_BAR_IDX = 4;
-	var DAY_BAR_IDX = 5;
-	
-
-	/**
-	 * Shows or hides the options for combining hours/minutes or months/days
-	 */
-	function toggleCombinationOptions() {
-		var combineHourMinToggle = clayConfig.getItemById('combineHourMinToggle');
-		var combineMonthDayToggle = clayConfig.getItemById('combineMonthDayToggle');
+	var COMBINED_HOURS_MINUTES_BAR_IDX = 2;
+	var MONTH_BAR_IDX = 5;
+	var DAY_BAR_IDX = 6;
+	var COMBINED_MONTH_DAY_BAR_IDX = 7;
+	var TOTAL_BARS = 11;
 		
-		if (this.get()[HOURS_BAR_IDX] && this.get()[MINUTES_BAR_IDX]){
-			combineHourMinToggle.show();
-		} else {
-			combineHourMinToggle.set(false);
-			combineHourMinToggle.hide();
-		}
-
-		if (this.get()[MONTH_BAR_IDX] && this.get()[DAY_BAR_IDX]){
-			combineMonthDayToggle.show();
-		} else {
-			combineMonthDayToggle.set(false);
-			combineMonthDayToggle.hide();
+	var bar_checkboxes_saved;
+	
+	/**
+	 * Shows or hides the options as needed based on which bars are enabled.
+	 */
+	function handleBarCheckboxesChanged() {
+		var i;
+		var bar_checkboxes_new = this.get();
+		
+		/* Make sure that the combo bars (e.g. "Combined Hours and Minutes")
+		and the corresponding individuals bars (e.g. "Hours" and "Minutes")
+		are not both enabled. */
+		if ( (bar_checkboxes_new[HOURS_BAR_IDX] || bar_checkboxes_new[MINUTES_BAR_IDX]) && 
+			bar_checkboxes_new[COMBINED_HOURS_MINUTES_BAR_IDX]) {
+			/* Compare the previous settings to the new settings to see which option was
+			changed; whatever was changed most recently will take priority. */
+			if (bar_checkboxes_saved[HOURS_BAR_IDX] || bar_checkboxes_saved[MINUTES_BAR_IDX]) {
+				bar_checkboxes_new[HOURS_BAR_IDX] = false;
+				bar_checkboxes_new[MINUTES_BAR_IDX] = false;
+			}
+			else {
+				bar_checkboxes_new[COMBINED_HOURS_MINUTES_BAR_IDX] = false;
+			}
+		} 
+		
+		if ( (bar_checkboxes_new[MONTH_BAR_IDX] || bar_checkboxes_new[DAY_BAR_IDX]) && 
+			bar_checkboxes_new[COMBINED_MONTH_DAY_BAR_IDX]) {
+			/* Compare the previous settings to the new settings to see which option was
+			changed; whatever was changed most recently will take priority. */
+			if (bar_checkboxes_saved[MONTH_BAR_IDX] || bar_checkboxes_saved[DAY_BAR_IDX]) {
+				bar_checkboxes_new[MONTH_BAR_IDX] = false;
+				bar_checkboxes_new[DAY_BAR_IDX] = false;
+			}
+			else {
+				bar_checkboxes_new[COMBINED_MONTH_DAY_BAR_IDX] = false;
+			}
+		} 
+		
+		this.set(bar_checkboxes_new);
+		bar_checkboxes_saved = bar_checkboxes_new;
+		
+		/* Show or hide the color pickers for each bar. */
+		var message_key ;
+		var color_picker_i;
+		for (i = 0; i < TOTAL_BARS; ++i) {
+			message_key = 'BarColors[n]'.replace('n', i);
+			color_picker_i = clayConfig.getItemByMessageKey(message_key);
+			if (bar_checkboxes_new[i]) {
+				color_picker_i.show();
+			}
+			else {
+				color_picker_i.hide();
+			}
 		}
 	}	
 	
@@ -36,7 +72,10 @@ module.exports = function(minified) {
 	the combination options as needed. */
 	clayConfig.on(clayConfig.EVENTS.AFTER_BUILD, function() {
 		var barCheckboxesGroup = clayConfig.getItemById("barCheckboxesGroup");
-		toggleCombinationOptions.call(barCheckboxesGroup);
-		barCheckboxesGroup.on('change', toggleCombinationOptions);
+		
+		bar_checkboxes_saved = barCheckboxesGroup.get();
+		
+		handleBarCheckboxesChanged.call(barCheckboxesGroup);
+		barCheckboxesGroup.on('change', handleBarCheckboxesChanged);
 	});
 };

@@ -14,14 +14,14 @@
         "displayName": "ProgBars",
         "enableMultiJS": true,
         "messageKeys": [
-            "BackgroundColor",
-            "BarCheckboxes[9]",
-            "TemperatureScale",
-            "Temperature",
             "FetchTemperature",
+            "Temperature",
             "SettingsMessage",
-            "CombineHourMin",
-            "CombineMonthDay"
+            "BarCheckboxes[11]",
+            "BarColors[11]",
+            "BackgroundColor",
+            "TextColor",
+            "TemperatureScale"
         ],
         "projectType": "native",
         "resources": {
@@ -50,5 +50,5 @@
             "watchface": true
         }
     },
-    "version": "1.2.0"
+    "version": "1.3.0"
 }

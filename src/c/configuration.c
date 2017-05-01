@@ -3,7 +3,7 @@
 #include "configuration.h"
 
 /*** Constants ***/
-const int CURRENT_SCHEMA_VERSION = 1;
+const int CURRENT_SCHEMA_VERSION = 2;
 
 /*** Internal Functions ***/
 
@@ -19,27 +19,28 @@ static void load_default_settings(app_settings_t *settings) {
 	
 	settings->bar_colors[HOURS_BAR_IDX] = GColorOxfordBlue;
 	settings->bar_colors[MINUTES_BAR_IDX] = GColorDukeBlue;
+	settings->bar_colors[COMBINED_HOURS_MINUTES_BAR_IDX] = GColorDukeBlue;
 	settings->bar_colors[SECONDS_BAR_IDX] = GColorVividCerulean;
 	settings->bar_colors[WEEKDAY_BAR_IDX] = GColorRajah;
 	settings->bar_colors[MONTH_BAR_IDX] = GColorBrass;
 	settings->bar_colors[DAY_BAR_IDX] = GColorYellow;	
+	settings->bar_colors[COMBINED_MONTH_DAY_BAR_IDX] = GColorYellow;
 	settings->bar_colors[TEMPERATURE_BAR_IDX] = GColorImperialPurple;
 	settings->bar_colors[STEPS_BAR_IDX] = GColorDarkGreen;	
 	settings->bar_colors[BATTERY_BAR_IDX] = GColorRed;
 	
 	/* Default display settings: show all bars with hours/mins and month/day combined. */
 	settings->show_bar[HOURS_BAR_IDX] = false;
-	settings->show_bar[MINUTES_BAR_IDX] = true;
+	settings->show_bar[MINUTES_BAR_IDX] = false;
+	settings->show_bar[COMBINED_HOURS_MINUTES_BAR_IDX] = true;
 	settings->show_bar[SECONDS_BAR_IDX] = true;
 	settings->show_bar[WEEKDAY_BAR_IDX] = true;
 	settings->show_bar[MONTH_BAR_IDX] = false;
-	settings->show_bar[DAY_BAR_IDX] = true;	
+	settings->show_bar[DAY_BAR_IDX] = false;	
+	settings->show_bar[COMBINED_MONTH_DAY_BAR_IDX] = true;	
 	settings->show_bar[TEMPERATURE_BAR_IDX] = true;
 	settings->show_bar[STEPS_BAR_IDX] = true;	
 	settings->show_bar[BATTERY_BAR_IDX] = true;
-
-	settings->combine_hour_min = true;
-	settings->combine_month_day = true;
 	
 	settings->temperature_scale = FAHRENHEIT;
 }
@@ -91,7 +92,9 @@ void load_settings(app_settings_t *settings) {
 			persist_read_data(STORAGE_KEY_SETTINGS, settings, sizeof(app_settings_t));
 		}
 		else {
-			/* Place any conversion required from the old version here. */
+			APP_LOG(APP_LOG_LEVEL_INFO, "Version has changed; previous saved settings replaced with new defaults.");
+			persist_delete(STORAGE_KEY_SETTINGS);
+			load_default_settings(settings);
 		}
 	}
 	else {
@@ -120,26 +123,13 @@ void save_settings(app_settings_t *settings) {
  */
 void read_settings_from_app_message(app_settings_t *settings, DictionaryIterator *it) {
 	read_setting_gcolor(it, MESSAGE_KEY_BackgroundColor, &(settings->background_color));
+	read_setting_gcolor(it, MESSAGE_KEY_TextColor, &(settings->text_color));	
 	
-	/* Loop to read whether each bar is enabled. */
+	/* Loop to read whether each bar is enabled and read the color. */
 	for (int i = 0; i < TOTAL_BARS; ++i) {
 		read_setting_bool(it, MESSAGE_KEY_BarCheckboxes + i, &(settings->show_bar[i]));
+		read_setting_gcolor(it, MESSAGE_KEY_BarColors + i, &(settings->bar_colors[i]));
 	}
-
-	read_setting_bool(it, MESSAGE_KEY_CombineHourMin, &(settings->combine_hour_min));
-	read_setting_bool(it, MESSAGE_KEY_CombineMonthDay, &(settings->combine_month_day));
-	
-	/* The settings to combine hour/min and month/day work by using one of those bars,
-	rather than a different bar entirely. So, disable the bar that is not used. */
-	if (settings->combine_hour_min) {
-		settings->show_bar[HOURS_BAR_IDX] = false;
-		settings->show_bar[MINUTES_BAR_IDX] = true;
-	}
-	
-	if (settings->combine_month_day) {
-		settings->show_bar[MONTH_BAR_IDX] = false;
-		settings->show_bar[DAY_BAR_IDX] = true;
-	}	
 	
 	Tuple *temperature_scale_tuple = dict_find(it, MESSAGE_KEY_TemperatureScale);
 	if(temperature_scale_tuple) {
