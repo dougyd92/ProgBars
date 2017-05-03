@@ -135,6 +135,7 @@ module.exports = [
 			{
 				"type": "radiogroup",
 				"messageKey": "TemperatureScale",
+				"id": "tempScaleRadio",
 				"defaultValue": "F",
 				"label": "Temperature Scale",
 				"options": [
@@ -147,7 +148,43 @@ module.exports = [
 						"value": "C"
 					}
 				]
-			}
+			},
+			{
+				"type": "slider",		
+				"messageKey": "TemperatureMinF",		
+				"id": "tempLowerBoundSliderF",		
+				"defaultValue": 32,		
+				"label": "Temperature Bar Lower Bound (\u00B0F)", //\u00B0 is the degree symbol
+				"min": -100,		
+				"max": 60,		
+			},		
+			{		
+				"type": "slider",		
+				"messageKey": "TemperatureMaxF",		
+				"id": "tempUpperBoundSliderF",		
+				"defaultValue": 100,		
+				"label": "Temperature Bar Upper Bound (\u00B0F)",		
+				"min": 70,		
+				"max": 135,		
+			},		
+			{		
+				"type": "slider",		
+				"messageKey": "TemperatureMinC",		
+				"id": "tempLowerBoundSliderC",		
+				"defaultValue": 0,		
+				"label": "Temperature Bar Lower Bound (\u00B0C)",		
+				"min": -73,		
+				"max": 15,		
+			},		
+			{		
+				"type": "slider",		
+				"messageKey": "TemperatureMaxC",		
+				"id": "tempUpperBoundSliderC",		
+				"defaultValue": 38,		
+				"label": "Temperature Bar Upper Bound (\u00B0C)",		
+				"min": 21,		
+				"max": 57,		
+			}			
 		]
 	},
 	{

@@ -208,21 +208,27 @@ static void fetch_weather_timer() {
  *
  * @param int new_temperature: The new temperature value in Fahrenheit.
  */
-static void update_temperature(int new_temperature) {
-	/* The bounds for the bar are arbitrarily from 32F to 100F, since those 
-	seem like reasonable temperatures. Out of that range is "off the charts". */
-	progress[TEMPERATURE_BAR_IDX] = (new_temperature - 32) / 68.0;	
+static void update_temperature(int new_temperature_f) {
+	/* Note: temperature_max and temperature_min will be in whichever the user
+	has selected, but new_temperature_f will always be in Fahrenheit. */
+	
+	int temperature_range = settings.temperature_max - settings.temperature_min;
 
 	/* Write the correct label depending on the user's settings.
 	"\u00B0" is the degree symbol. */
 	if (settings.temperature_scale == FAHRENHEIT) {
+		progress[TEMPERATURE_BAR_IDX] = (float) (new_temperature_f - settings.temperature_min) / temperature_range;	
+		
 		snprintf(labels[TEMPERATURE_BAR_IDX], LABEL_WIDTH, "%d\u00B0F", 
-				 new_temperature);
+				 new_temperature_f);
 	}
 	else {
 		/* Convert the temperature to Celsius from Fahrenheit. */
+		float new_temperature_c = (new_temperature_f - 32) / 1.8;
+		progress[TEMPERATURE_BAR_IDX] = (float) (new_temperature_c - settings.temperature_min) / temperature_range;	
+		
 		snprintf(labels[TEMPERATURE_BAR_IDX], LABEL_WIDTH, "%d\u00B0C", 
-				 (int)((new_temperature - 32) / 1.8));
+				 (int) new_temperature_c);
 	}
 	layer_mark_dirty(layer_bars);
 }

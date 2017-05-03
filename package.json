@@ -21,7 +21,11 @@
             "BarColors[11]",
             "BackgroundColor",
             "TextColor",
-            "TemperatureScale"
+            "TemperatureScale",
+            "TemperatureMinF",
+            "TemperatureMaxF",
+            "TemperatureMinC",
+            "TemperatureMaxC"
         ],
         "projectType": "native",
         "resources": {

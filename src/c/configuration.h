@@ -47,6 +47,8 @@ typedef struct {
 	GColor bar_colors[TOTAL_BARS];
 	bool show_bar[TOTAL_BARS];
 	temperature_scale_e temperature_scale;
+	int temperature_min;		
+	int temperature_max;	
 } app_settings_t;
 
 /*** Functions ***/

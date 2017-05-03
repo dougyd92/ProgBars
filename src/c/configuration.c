@@ -3,7 +3,7 @@
 #include "configuration.h"
 
 /*** Constants ***/
-const int CURRENT_SCHEMA_VERSION = 2;
+const int CURRENT_SCHEMA_VERSION = 3;
 
 /*** Internal Functions ***/
 
@@ -43,6 +43,8 @@ static void load_default_settings(app_settings_t *settings) {
 	settings->show_bar[BATTERY_BAR_IDX] = true;
 	
 	settings->temperature_scale = FAHRENHEIT;
+	settings->temperature_min = 32;		
+	settings->temperature_max = 100;
 }
 
 /**
@@ -71,6 +73,20 @@ static void read_setting_gcolor (DictionaryIterator *it, uint32_t message_key, G
 	if(setting_tuple) {
 		*setting = GColorFromHEX(setting_tuple->value->int32);
 	}
+}
+
+/**
+ * Reads a value from the dictionary into the passed int.		
+ * 		
+ * @param DictionaryIterator *it: Iterator for the app message with the settings.		
+ * @param uint32_t message_key: Message key for the settings to be read.		
+ * @param int *setting: Variable to hold the value.		
+ */		
+static void read_setting_int (DictionaryIterator *it, uint32_t message_key, int *setting) {		
+	Tuple *setting_tuple = dict_find(it, message_key);		
+	if(setting_tuple) {		
+		*setting = setting_tuple->value->int32;
+	}		
 }
 
 /*** External Functions ***/
@@ -144,6 +160,16 @@ void read_settings_from_app_message(app_settings_t *settings, DictionaryIterator
 					temperature_scale_tuple->value->cstring);
 		}
 	}
+	
+	/* Read the correct temperature bounds, either C or F depending on what the user chose. */
+	if (settings->temperature_scale == FAHRENHEIT) {		
+		read_setting_int(it, MESSAGE_KEY_TemperatureMinF, &(settings->temperature_min));		
+		read_setting_int(it, MESSAGE_KEY_TemperatureMaxF, &(settings->temperature_max));			
+	}		
+	else if (settings->temperature_scale == CELSIUS) {		
+		read_setting_int(it, MESSAGE_KEY_TemperatureMinC, &(settings->temperature_min));		
+		read_setting_int(it, MESSAGE_KEY_TemperatureMaxC, &(settings->temperature_max));			
+	}	
 }
 
 /**
