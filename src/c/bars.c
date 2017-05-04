@@ -54,16 +54,16 @@ static void draw_a_bar(GRect bounds, GContext *ctx, float progress, char *label,
 	/* Draw the label at the end of the bar, but don't go off the screen when the bar
 	is all the way full or off the chart (e.g. in extreme temperature, for example). */
 	int label_x = bar_filled_width + LABEL_HORIZ_SPACING;
-	if (label_x < 0)
+	if (label_x < 0) {
 		label_x = 0;
-	else if (label_x > PBL_DISPLAY_WIDTH - text_size.w)
+	}
+	else if (label_x > PBL_DISPLAY_WIDTH - text_size.w) {
 		label_x = PBL_DISPLAY_WIDTH - text_size.w;
+	}
 
-		/* Draw the text label. */
-		graphics_draw_text(ctx, label, font_for_text, 
-						   GRect(label_x, *next_bar_start_y - LABEL_VERT_OFFSET, 
-								 text_size.w, text_size.h), 
-						   GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
+	/* Draw the text label. */
+	draw_outlined_text(ctx, label, font_for_text, label_x, *next_bar_start_y - LABEL_VERT_OFFSET, 
+					   text_size, settings.text_color, settings.text_outline_color);
 
 	/* Update the starting y-position based on this one's height. The variable can then
 	be passed in subsequent calls without the caller needing to update it. */
@@ -80,10 +80,6 @@ static void draw_a_bar(GRect bounds, GContext *ctx, float progress, char *label,
 static void redraw_bars(Layer *layer, GContext *ctx) {
 	float next_bar_start_y = 0;
 	GRect l_grect_bounds = layer_get_bounds(layer);
-
-	/* The text color does need to get set every time, as there
-	is no way to set the color outside of the graphics context. */
-	graphics_context_set_text_color(ctx, settings.text_color);
 
 	for (int i = 0; i < TOTAL_BARS; ++i) {
 		if (settings.show_bar[i])

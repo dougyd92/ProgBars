@@ -44,6 +44,7 @@ typedef enum {
 typedef struct {
 	GColor background_color;
 	GColor text_color;
+	GColor text_outline_color;
 	GColor bar_colors[TOTAL_BARS];
 	bool show_bar[TOTAL_BARS];
 	temperature_scale_e temperature_scale;

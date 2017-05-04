@@ -45,6 +45,13 @@ module.exports = [
 				"defaultValue": "0xFFFFFF", //GColorWhite
 				"sunlight": false,
 				"label": "Text Color"
+			},			
+			{
+				"type": "color",
+				"messageKey": "TextOutlineColor",
+				"defaultValue": "0x000000", //GColorBlack
+				"sunlight": false,
+				"label": "Text Outline Color"
 			},				
 			{
 				"type": "color",

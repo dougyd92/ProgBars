@@ -3,7 +3,7 @@
 #include "configuration.h"
 
 /*** Constants ***/
-const int CURRENT_SCHEMA_VERSION = 3;
+const int CURRENT_SCHEMA_VERSION = 4;
 
 /*** Internal Functions ***/
 
@@ -16,6 +16,7 @@ static void load_default_settings(app_settings_t *settings) {
 	/* Default colors */
 	settings->background_color = GColorBlack;
 	settings->text_color = GColorWhite;
+	settings->text_outline_color = GColorBlack;
 	
 	settings->bar_colors[HOURS_BAR_IDX] = GColorOxfordBlue;
 	settings->bar_colors[MINUTES_BAR_IDX] = GColorDukeBlue;
@@ -138,8 +139,10 @@ void save_settings(app_settings_t *settings) {
  & @param DictionaryIterator *it: Iterator for the app message with the settings.
  */
 void read_settings_from_app_message(app_settings_t *settings, DictionaryIterator *it) {
+	/* Read the colors settings. */
 	read_setting_gcolor(it, MESSAGE_KEY_BackgroundColor, &(settings->background_color));
-	read_setting_gcolor(it, MESSAGE_KEY_TextColor, &(settings->text_color));	
+	read_setting_gcolor(it, MESSAGE_KEY_TextColor, &(settings->text_color));
+	read_setting_gcolor(it, MESSAGE_KEY_TextOutlineColor, &(settings->text_outline_color));
 	
 	/* Loop to read whether each bar is enabled and read the color. */
 	for (int i = 0; i < TOTAL_BARS; ++i) {

@@ -21,6 +21,7 @@
             "BarColors[11]",
             "BackgroundColor",
             "TextColor",
+            "TextOutlineColor",
             "TemperatureScale",
             "TemperatureMinF",
             "TemperatureMaxF",
