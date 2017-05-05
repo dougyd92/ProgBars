@@ -39,6 +39,14 @@ typedef enum {
 } temperature_scale_e;
 
 /**
+ * Bar styles. Solid or outline-only.
+ */
+typedef enum {
+	SOLID,
+	OUTLINE
+} bar_style_e;
+
+/**
  * Holds all the user settings for the app.
  */
 typedef struct {
@@ -48,6 +56,7 @@ typedef struct {
 	GColor bar_colors[TOTAL_BARS];
 	bool show_bar[TOTAL_BARS];
 	temperature_scale_e temperature_scale;
+	bar_style_e bar_style;
 	int temperature_min;		
 	int temperature_max;	
 } app_settings_t;

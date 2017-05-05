@@ -26,7 +26,8 @@
             "TemperatureMinF",
             "TemperatureMaxF",
             "TemperatureMinC",
-            "TemperatureMaxC"
+            "TemperatureMaxC",
+            "BarStyle"
         ],
         "projectType": "native",
         "resources": {

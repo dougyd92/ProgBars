@@ -138,7 +138,23 @@ module.exports = [
 			{
 				"type": "heading",
 				"defaultValue": "More options"
-			}, 			
+			}, 	
+			{
+				"type": "radiogroup",
+				"messageKey": "BarStyle",
+				"defaultValue": "S",
+				"label": "Bar Style",
+				"options": [
+					{ 
+						"label": "Solid",
+						"value": "S"
+					},
+					{ 
+						"label": "Outline",
+						"value": "O"
+					}
+				]
+			},			
 			{
 				"type": "radiogroup",
 				"messageKey": "TemperatureScale",

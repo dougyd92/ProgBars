@@ -3,7 +3,7 @@
 #include "configuration.h"
 
 /*** Constants ***/
-const int CURRENT_SCHEMA_VERSION = 4;
+const int CURRENT_SCHEMA_VERSION = 5;
 
 /*** Internal Functions ***/
 
@@ -46,6 +46,8 @@ static void load_default_settings(app_settings_t *settings) {
 	settings->temperature_scale = FAHRENHEIT;
 	settings->temperature_min = 32;		
 	settings->temperature_max = 100;
+	
+	settings->bar_style = SOLID;
 }
 
 /**
@@ -172,6 +174,20 @@ void read_settings_from_app_message(app_settings_t *settings, DictionaryIterator
 	else if (settings->temperature_scale == CELSIUS) {		
 		read_setting_int(it, MESSAGE_KEY_TemperatureMinC, &(settings->temperature_min));		
 		read_setting_int(it, MESSAGE_KEY_TemperatureMaxC, &(settings->temperature_max));			
+	}	
+	
+	Tuple *bar_style_tuple = dict_find(it, MESSAGE_KEY_BarStyle);
+	if(bar_style_tuple) {
+		if (bar_style_tuple->value->cstring[0] == 'S') {
+			settings->bar_style = SOLID;
+		}
+		else if (bar_style_tuple->value->cstring[0] == 'O') {
+			settings->bar_style = OUTLINE;
+		}
+		else {
+			APP_LOG(APP_LOG_LEVEL_ERROR, "Invalid value for MESSAGE_KEY_BarStyle: %s.", 
+					bar_style_tuple->value->cstring);
+		}
 	}	
 }
 

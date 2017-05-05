@@ -33,21 +33,27 @@ static app_settings_t settings;
  *	the height at which to start the next bar, based on this one's height. 
  */
 static void draw_a_bar(GRect bounds, GContext *ctx, float progress, char *label, 
-					   GColor fill_color, float height, float *next_bar_start_y) {
+					   GColor bar_color, float height, float *next_bar_start_y) {
 
 	int bar_filled_width = PBL_DISPLAY_WIDTH * progress;
 
 	/* Space each bar vertically. */
 	*next_bar_start_y += BAR_SPACING;
 
-	graphics_context_set_fill_color(ctx, fill_color);
-
 	/* Draw the rectangle that is the bar. */
-	graphics_fill_rect(ctx, 
-					   GRect(0, round(*next_bar_start_y), bar_filled_width, round(height)), 
-					   CORNER_RADIUS, 
-					   GCornersRight);
-
+	if (settings.bar_style == SOLID) {
+		graphics_context_set_fill_color(ctx, bar_color);
+		graphics_fill_rect(ctx, GRect(0, round(*next_bar_start_y), bar_filled_width, round(height)), CORNER_RADIUS, GCornersRight);
+	}
+	else {
+		graphics_context_set_stroke_color(ctx, bar_color);
+		/* Since graphics_draw_round_rect only draw 1 pixel wide, draw two rectangles slightly offset.
+		Also, graphics_draw_round_rect does not allow a corner mask, so start it offscreen to avoid 
+		having rounded corners on the left side. */
+		graphics_draw_round_rect(ctx, GRect(-2, round(*next_bar_start_y), bar_filled_width+2, round(height)), CORNER_RADIUS);	
+		graphics_draw_round_rect(ctx, GRect(-2, round(*next_bar_start_y)+1, bar_filled_width+3, round(height)), CORNER_RADIUS);	
+	}
+	
 	GSize text_size = graphics_text_layout_get_content_size(label, font_for_text, bounds,
 															GTextOverflowModeWordWrap, GTextAlignmentCenter);
 
