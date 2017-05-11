@@ -259,7 +259,7 @@ static void battery_callback(BatteryChargeState state) {
 static void update_steps(int new_steps) {
 	progress[STEPS_BAR_IDX] = new_steps / 10000.0;
 	/* Symbol \u00A4 has been overloaded with the footsteps icon. */
-	snprintf(labels[STEPS_BAR_IDX], LABEL_WIDTH, "\u00A4%d", new_steps);
+	snprintf(labels[STEPS_BAR_IDX], LABEL_WIDTH, "%d\u00A4", new_steps);
 
 	layer_mark_dirty(layer_bars);
 }

@@ -221,9 +221,10 @@ module.exports = [
 			"<a href=\"mailto:codedbydoug@gmail.com?Subject=ProgBars Pebble Watchface\">email</a> " +
 			"or submit an issue on <a href =\"https://github.com/dougyd92/ProgBars\">GitHub</a>!" +
 			"<br/>Configuration page made using <a href=\"https://github.com/pebble/clay\">Clay</a>." +
-			"<br/>Weather data supplied by <a href=\"https://openweathermap.org/\">OpenWeatherMap.org</a>." +
+			"<br/>Weather data supplied by <a href=\"https://openweathermap.org\">OpenWeatherMap.org</a>." +
 			"<br/><a href=\"https://fonts.google.com/specimen/Oxygen+Mono\">Oxygen Mono</a> font used under the " +
 			"<a href=\"http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web\">Open Font License</a>." +
+			"<br/>Footprints icon made by Freepik from <a href=\"http://www.flaticon.com\">flaticon.com</a>." +
 			"</center><br/>"
 	}
 ];
