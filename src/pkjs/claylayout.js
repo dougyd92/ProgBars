@@ -37,7 +37,8 @@ module.exports = [
 				"messageKey": "BackgroundColor",
 				"defaultValue": "0x000000", //GColorBlack
 				"sunlight": false,
-				"label": "Background Color"
+				"label": "Background Color",
+				"allowGray": true
 			},		
 			{
 				"type": "color",
@@ -58,77 +59,88 @@ module.exports = [
 				"messageKey": "BarColors[0]",
 				"defaultValue": "0x000055", //GColorOxfordBlue
 				"sunlight": false,
-				"label": "Hours Bar Color"
+				"label": "Hours Bar Color",
+				"allowGray": true
 			},		
 			{
 				"type": "color",
 				"messageKey": "BarColors[1]",
 				"defaultValue": "0x0000AA", //GColorDukeBlue
 				"sunlight": false,
-				"label": "Minutes Bar Color"
+				"label": "Minutes Bar Color",
+				"allowGray": true
 			},
 			{
 				"type": "color",
 				"messageKey": "BarColors[2]",
 				"defaultValue": "0x0000AA", //GColorDukeBlue
 				"sunlight": false,
-				"label": "Hours and Minutes Combined Bar Color"
+				"label": "Hours and Minutes Combined Bar Color",
+				"allowGray": true
 			},				
 			{
 				"type": "color",
 				"messageKey": "BarColors[3]",
 				"defaultValue": "0x00AAFF", //GColorVividCerulean
 				"sunlight": false,
-				"label": "Seconds Bar Color"
+				"label": "Seconds Bar Color",
+				"allowGray": true
 			},
 			{
 				"type": "color",
 				"messageKey": "BarColors[4]",
 				"defaultValue": "0xFFAA55", //GColorRajah
 				"sunlight": false,
-				"label": "Day of Week Bar Color"
+				"label": "Day of Week Bar Color",
+				"allowGray": true
 			},		
 			{
 				"type": "color",
 				"messageKey": "BarColors[5]",
 				"defaultValue": "0xAAAA55", //GColorBrass
 				"sunlight": false,
-				"label": "Month Bar Color"
+				"label": "Month Bar Color",
+				"allowGray": true
 			},	
 			{
 				"type": "color",
 				"messageKey": "BarColors[6]",
 				"defaultValue": "0xFFFF00", //GColorYellow
 				"sunlight": false,
-				"label": "Day of Month Bar Color"
+				"label": "Day of Month Bar Color",
+				"allowGray": true
 			},	
 			{
 				"type": "color",
 				"messageKey": "BarColors[7]",
 				"defaultValue": "0xFFFF00", //GColorYellow
 				"sunlight": false,
-				"label": "Month and Day Combined Bar Color"
+				"label": "Month and Day Combined Bar Color",
+				"allowGray": true
 			},				
 			{
 				"type": "color",
 				"messageKey": "BarColors[8]",
 				"defaultValue": "0x550055", //GColorImperialPurple
 				"sunlight": false,
-				"label": "Temperature Bar Color"
+				"label": "Temperature Bar Color",
+				"allowGray": true
 			},	
 			{
 				"type": "color",
 				"messageKey": "BarColors[9]",
 				"defaultValue": "0x005500", //GColorDarkGreen
 				"sunlight": false,
-				"label": "Steps Bar Color"
+				"label": "Steps Bar Color",
+				"allowGray": true
 			},	
 			{
 				"type": "color",
 				"messageKey": "BarColors[10]",
 				"defaultValue": "0xFF0000", //GColorRed
 				"sunlight": false,
-				"label": "Battery Bar Color"
+				"label": "Battery Bar Color",
+				"allowGray": true
 			}					
 		]
 	},

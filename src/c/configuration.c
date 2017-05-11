@@ -18,17 +18,17 @@ static void load_default_settings(app_settings_t *settings) {
 	settings->text_color = GColorWhite;
 	settings->text_outline_color = GColorBlack;
 	
-	settings->bar_colors[HOURS_BAR_IDX] = GColorOxfordBlue;
-	settings->bar_colors[MINUTES_BAR_IDX] = GColorDukeBlue;
-	settings->bar_colors[COMBINED_HOURS_MINUTES_BAR_IDX] = GColorDukeBlue;
-	settings->bar_colors[SECONDS_BAR_IDX] = GColorVividCerulean;
-	settings->bar_colors[WEEKDAY_BAR_IDX] = GColorRajah;
-	settings->bar_colors[MONTH_BAR_IDX] = GColorBrass;
-	settings->bar_colors[DAY_BAR_IDX] = GColorYellow;	
-	settings->bar_colors[COMBINED_MONTH_DAY_BAR_IDX] = GColorYellow;
-	settings->bar_colors[TEMPERATURE_BAR_IDX] = GColorImperialPurple;
-	settings->bar_colors[STEPS_BAR_IDX] = GColorDarkGreen;	
-	settings->bar_colors[BATTERY_BAR_IDX] = GColorRed;
+	settings->bar_colors[HOURS_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorOxfordBlue, GColorWhite);
+	settings->bar_colors[MINUTES_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorDukeBlue, GColorWhite);
+	settings->bar_colors[COMBINED_HOURS_MINUTES_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorDukeBlue, GColorWhite);
+	settings->bar_colors[SECONDS_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorVividCerulean, GColorWhite);
+	settings->bar_colors[WEEKDAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorRajah, GColorWhite);
+	settings->bar_colors[MONTH_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorBrass, GColorWhite);
+	settings->bar_colors[DAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorYellow, GColorWhite);
+	settings->bar_colors[COMBINED_MONTH_DAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorYellow, GColorWhite);
+	settings->bar_colors[TEMPERATURE_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorImperialPurple, GColorWhite);
+	settings->bar_colors[STEPS_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorDarkGreen, GColorWhite);
+	settings->bar_colors[BATTERY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorRed, GColorWhite);
 	
 	/* Default display settings: show all bars with hours/mins and month/day combined. */
 	settings->show_bar[HOURS_BAR_IDX] = false;
