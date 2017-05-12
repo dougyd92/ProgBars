@@ -5,7 +5,6 @@
 const float BAR_SPACING = 8.0;
 const int CORNER_RADIUS = 4;
 const int LABEL_HORIZ_SPACING = 1;
-const int LABEL_VERT_OFFSET = 2;
 const int LABEL_WIDTH = 8;
 const int WEATHER_UPDATE_FREQUENCY_MS = 900000; //15 minutes
 
@@ -57,6 +56,9 @@ static void draw_a_bar(GRect bounds, GContext *ctx, float progress, char *label,
 	GSize text_size = graphics_text_layout_get_content_size(label, font_for_text, bounds,
 															GTextOverflowModeWordWrap, GTextAlignmentCenter);
 
+	/* This formula is used to make sure the text is centered on each bar. */
+	int label_vert_offset = (height - text_size.h) / 2.1 - 2;
+	
 	/* Draw the label at the end of the bar, but don't go off the screen when the bar
 	is all the way full or off the chart (e.g. in extreme temperature, for example). */
 	int label_x = bar_filled_width + LABEL_HORIZ_SPACING;
@@ -68,7 +70,7 @@ static void draw_a_bar(GRect bounds, GContext *ctx, float progress, char *label,
 	}
 
 	/* Draw the text label. */
-	draw_outlined_text(ctx, label, font_for_text, label_x, *next_bar_start_y - LABEL_VERT_OFFSET, 
+	draw_outlined_text(ctx, label, font_for_text, label_x, *next_bar_start_y + label_vert_offset, 
 					   text_size, settings.text_color, settings.text_outline_color);
 
 	/* Update the starting y-position based on this one's height. The variable can then
@@ -315,6 +317,19 @@ static void settings_changed(Window *win_main) {
 	int bar_count = count_enabled_bars(&settings);
 	bar_height = (float)(PBL_DISPLAY_HEIGHT - (bar_count + 1) * BAR_SPACING) / bar_count;
 
+	/* Determine the correct font size (small, medium, or large). */
+	fonts_unload_custom_font(font_for_text);
+	if (bar_count <= 4) {
+		font_for_text = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OXYGEN_MONO_27));
+	}
+	else if (bar_count <= 7) {
+		font_for_text = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OXYGEN_MONO_20));
+	}
+	else {
+		font_for_text = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OXYGEN_MONO_17));
+	}
+
+	
 	/* Update subscription to battery state service. */
 	if (settings.show_bar[BATTERY_BAR_IDX]) {
 		battery_callback(battery_state_service_peek());
@@ -378,9 +393,6 @@ void bars_init(Window *win_main) {
 	for (int i = 0; i < TOTAL_BARS; ++i) {
 		labels[i] = malloc(LABEL_WIDTH);
 	}
-
-	/* Load resources. */
-	font_for_text = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OXYGEN_MONO_19));
 
 	/* Load the settings, either from storage or from defaults. */
 	load_settings(&settings);

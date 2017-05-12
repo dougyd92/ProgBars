@@ -41,7 +41,19 @@
                 },
                 {
                     "file": "fonts/OxygenMono-Regular.ttf",
-                    "name": "FONT_OXYGEN_MONO_19",
+                    "name": "FONT_OXYGEN_MONO_27",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/OxygenMono-Regular.ttf",
+                    "name": "FONT_OXYGEN_MONO_20",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/OxygenMono-Regular.ttf",
+                    "name": "FONT_OXYGEN_MONO_17",
                     "targetPlatforms": null,
                     "type": "font"
                 }
