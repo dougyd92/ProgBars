@@ -18,12 +18,14 @@ static void load_default_settings(app_settings_t *settings) {
 	settings->text_color = GColorWhite;
 	settings->text_outline_color = GColorBlack;
 	
+	/* Set the default bar colors depending on whether the watch is color or black and white. 
+	These should match the defaults set in claylayout.js. */
 	settings->bar_colors[HOURS_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorOxfordBlue, GColorWhite);
 	settings->bar_colors[MINUTES_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorDukeBlue, GColorWhite);
 	settings->bar_colors[COMBINED_HOURS_MINUTES_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorDukeBlue, GColorWhite);
 	settings->bar_colors[SECONDS_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorVividCerulean, GColorWhite);
 	settings->bar_colors[WEEKDAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorRajah, GColorWhite);
-	settings->bar_colors[MONTH_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorBrass, GColorWhite);
+	settings->bar_colors[MONTH_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorSpringBud, GColorWhite);
 	settings->bar_colors[DAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorYellow, GColorWhite);
 	settings->bar_colors[COMBINED_MONTH_DAY_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorYellow, GColorWhite);
 	settings->bar_colors[TEMPERATURE_BAR_IDX] = PBL_IF_COLOR_ELSE(GColorImperialPurple, GColorWhite);

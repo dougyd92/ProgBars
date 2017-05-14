@@ -1,7 +1,20 @@
 /**
  * JSON used to generate the configuration page.
  */
-module.exports = [
+
+var watchInfo = Pebble.getActiveWatchInfo();
+var barDefaultColors;
+
+/* Set the default bar colors depending on whether the watch is color or black and white. 
+These should match the defaults set in load_default_settings in configuration.c. */
+if (watchInfo.platform == 'basalt') {
+	barDefaultColors = [0x000055, 0x0000AA, 0x0000AA, 0x00AAFF, 0xFFAA55, 0xAAFF00, 0xFFFF00, 0xFFFF00, 0x550055, 0x005500, 0xFF0000];
+}
+else {
+	barDefaultColors = [0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF];
+}
+
+var clayLayoutJSON = [
 	{
 		"type": "heading",
 		"id": "title",
@@ -57,7 +70,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[0]",
-				"defaultValue": "0x000055", //GColorOxfordBlue
+				"defaultValue": barDefaultColors[0],
 				"sunlight": false,
 				"label": "Hours Bar Color",
 				"allowGray": true
@@ -65,7 +78,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[1]",
-				"defaultValue": "0x0000AA", //GColorDukeBlue
+				"defaultValue": barDefaultColors[1],
 				"sunlight": false,
 				"label": "Minutes Bar Color",
 				"allowGray": true
@@ -73,7 +86,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[2]",
-				"defaultValue": "0x0000AA", //GColorDukeBlue
+				"defaultValue": barDefaultColors[2],
 				"sunlight": false,
 				"label": "Hours and Minutes Combined Bar Color",
 				"allowGray": true
@@ -81,7 +94,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[3]",
-				"defaultValue": "0x00AAFF", //GColorVividCerulean
+				"defaultValue": barDefaultColors[3],
 				"sunlight": false,
 				"label": "Seconds Bar Color",
 				"allowGray": true
@@ -89,7 +102,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[4]",
-				"defaultValue": "0xFFAA55", //GColorRajah
+				"defaultValue": barDefaultColors[4],
 				"sunlight": false,
 				"label": "Day of Week Bar Color",
 				"allowGray": true
@@ -97,7 +110,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[5]",
-				"defaultValue": "0xAAAA55", //GColorBrass
+				"defaultValue": barDefaultColors[5],
 				"sunlight": false,
 				"label": "Month Bar Color",
 				"allowGray": true
@@ -105,7 +118,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[6]",
-				"defaultValue": "0xFFFF00", //GColorYellow
+				"defaultValue": barDefaultColors[6],
 				"sunlight": false,
 				"label": "Day of Month Bar Color",
 				"allowGray": true
@@ -113,7 +126,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[7]",
-				"defaultValue": "0xFFFF00", //GColorYellow
+				"defaultValue": barDefaultColors[7],
 				"sunlight": false,
 				"label": "Month and Day Combined Bar Color",
 				"allowGray": true
@@ -121,7 +134,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[8]",
-				"defaultValue": "0x550055", //GColorImperialPurple
+				"defaultValue": barDefaultColors[8],
 				"sunlight": false,
 				"label": "Temperature Bar Color",
 				"allowGray": true
@@ -129,7 +142,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[9]",
-				"defaultValue": "0x005500", //GColorDarkGreen
+				"defaultValue": barDefaultColors[9],
 				"sunlight": false,
 				"label": "Steps Bar Color",
 				"allowGray": true
@@ -137,7 +150,7 @@ module.exports = [
 			{
 				"type": "color",
 				"messageKey": "BarColors[10]",
-				"defaultValue": "0xFF0000", //GColorRed
+				"defaultValue": barDefaultColors[10],
 				"sunlight": false,
 				"label": "Battery Bar Color",
 				"allowGray": true
@@ -240,3 +253,5 @@ module.exports = [
 			"</center><br/>"
 	}
 ];
+
+module.exports = clayLayoutJSON;
